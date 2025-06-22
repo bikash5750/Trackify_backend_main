@@ -1,8 +1,9 @@
 import express from "express"
+import {app} from "./app.js"
 import config from "./utils/config.js"
 import {connectdb} from "./src/connectdb/connectdb.js"
 
-const app = express()
+
 
 connectdb().then(()=>{
   app.listen(3000 ,()=>{

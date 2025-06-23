@@ -1,3 +1,5 @@
+user api's
+
 POST   /api/auth/register         // Register new user
 POST   /api/auth/login            // Login user
 POST   /api/auth/logout           // Logout user
@@ -9,7 +11,7 @@ DELETE /api/users/delete-account  // Delete user account
 
 
 
-
+category's api
 
 POST   /api/categories            // Add new category
 GET    /api/categories            // List categories
@@ -18,7 +20,7 @@ PUT    /api/categories/:id        // Update category
 DELETE /api/categories/:id        // Delete category
 
 
-
+expense's api
 
 POST   /api/expenses              // Add new expense
 GET    /api/expenses              // Get all expenses for user

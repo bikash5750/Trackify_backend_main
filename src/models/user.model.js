@@ -88,4 +88,4 @@ export const zodPasswordSchema = z
 
 
 // Export Mongoose model
-export const User = mongoose.model("User", UserSchema);
+export const {User} = mongoose.model("User", UserSchema);

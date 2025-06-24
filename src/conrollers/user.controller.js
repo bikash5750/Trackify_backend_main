@@ -74,6 +74,8 @@ if (!passwordValidation.success) {
     });
   }
 };
+
+
 const userlogin = async (req, res) => {
   try {
     const { username, password, email } = req.body;
@@ -129,4 +131,13 @@ const userlogin = async (req, res) => {
   }
 };
 
-export { userlogin , registeruser}; 
+const logoutuser = async (req,res) => {
+  try {
+    
+  } catch (error) {
+    
+  }
+  
+}
+
+export { userlogin , registeruser ,logoutuser}; 

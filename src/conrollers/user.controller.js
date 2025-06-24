@@ -1,3 +1,4 @@
+import { fa } from "zod/v4/locales";
 import { User } from "../models/user.model.js";
 import { zodPasswordSchema } from "../models/user.model.js";
 
@@ -73,5 +74,59 @@ if (!passwordValidation.success) {
     });
   }
 };
+const userlogin = async (req, res) => {
+  try {
+    const { username, password, email } = req.body;
 
-export { registeruser };
+    if (!username || !password || !email) {
+      return res.status(400).json({
+        msg: "User data missing",
+      });
+    }
+
+    const finduser = await User.findOne({
+      $or: [{ username }, { email }],
+    });
+
+    if (!finduser) {
+      return res.status(400).json({
+        msg: "User not found! Please register",
+      });
+    }
+
+    const isPasswordValid = await finduser.checkPassword(password, finduser.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ msg: "Invalid password" });
+    }
+
+    const refreshtoken = finduser.generateJWT();  
+    finduser.refreshtoken = refreshtoken;
+
+    await finduser.save({ validateBeforeSave: false });
+
+    const options = {
+      httpOnly: true, 
+      secure: true,
+      sameSite: "Strict",
+    };
+
+    res
+      .status(200)
+      .cookie("refreshtoken", refreshtoken, options)
+      .json({
+        msg: "Login successful",
+        username: finduser.username,
+        refreshtoken: refreshtoken,
+        email: finduser.email,
+        avatar: finduser.avatar,
+      });
+
+  } catch (error) {
+    res.status(500).json({
+      msg: "Server error",
+      error: error.message,
+    });
+  }
+};
+
+export { userlogin , registeruser}; 

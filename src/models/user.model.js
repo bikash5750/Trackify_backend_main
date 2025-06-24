@@ -2,6 +2,7 @@ import mongoose, { Schema } from "mongoose";
 import z from "zod";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import { string } from "zod/v4";
 
 // Mongoose User Schema
 const UserSchema = new mongoose.Schema(
@@ -39,6 +40,9 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: [true, "Password is required"],
     },
+    refreshtoken :{
+      type : string
+    }
   },
   { timestamps: true }
 );

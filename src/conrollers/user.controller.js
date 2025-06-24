@@ -1,10 +1,9 @@
 import { User } from "../models/user.model.js";
 import { zodPasswordSchema } from "../models/user.model.js";
-import { uploadtocloudinary } from "../../utils/cloudinary.js";
 
 const registeruser = async (req, res) => {
   try {
-    const { username, email, fullname, password,  } = req.body;
+    const { username, email, fullname, password } = req.body;
   
     if (!username || !email || !fullname || !password) {
       return res.status(400).json({
@@ -35,25 +34,19 @@ if (!passwordValidation.success) {
       });
     }
 
-    
-     const getavatar = req.files?.avatar;
-    // console.log("avatar is " , getavatar)
-    if(!getavatar){
+    const{avatar} = req.body
+    if(!avatar){
       return res.status(400).json({
-        msg : "avatar not uploaded"
+        msg : "please upload avatar"
       })
-      
     }
     
 
-    
-    //  const uploadavatar = await uploadtocloudinary(getavatar)
-
-    //  if(!uploadavatar){
-    //   return res.status(500).json({
-    //     msg : "unable to upload to cloudinary"
-    //   })
-    //  }
+     if(!avatar){
+      return res.status(500).json({
+        msg : "unable to upload to cloudinary"
+      })
+     }
 
     //if not found
     const newuser = new User({
@@ -61,7 +54,7 @@ if (!passwordValidation.success) {
       password,
       fullname,
       email,
-      avatar
+      avatar 
     });
     await newuser.save();
 
